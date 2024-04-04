@@ -1,0 +1,5 @@
+size 300
+color '#E74318'
+background '#18bce7'
+shape 'triangle'
+draw 0
