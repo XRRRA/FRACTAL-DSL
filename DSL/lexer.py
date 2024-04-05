@@ -55,6 +55,8 @@ class Lexer:
                 token = Token("DRAW", keyword)
             elif keyword.lower() == 'depth':
                 token = Token("DEPTH", keyword)
+            elif keyword.lower() == 'points':
+                token = Token("POINTS", keyword)
             else:
                 self.error()
             # self.pos += len(keyword)

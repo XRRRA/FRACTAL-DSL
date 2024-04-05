@@ -52,6 +52,11 @@ class Parser:
             depth_value = self.current_token.value
             self.match("NUMBER")
             self.fractal.set_depth(int(depth_value))
+        elif command == 'points':
+            self.match("POINTS")
+            points_value = self.current_token.value
+            self.match("NUMBER")
+            self.fractal.set_points_nr(int(points_value))
         elif command == 'draw':
             self.match("DRAW")
             draw_value = self.current_token.value
