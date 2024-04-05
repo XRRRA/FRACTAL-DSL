@@ -108,6 +108,9 @@ class Fractal:
         elif self.shape == 'gardi' or self.shape == 'circle':
             start_at(0, 0)
             self.gardi_fractal(0, 0, self.size / 3, self.direction, self.depth)
+        elif self.shape == 'spiral':
+            start_at(0, 0)
+            self.draw_spiral(self.size, self.direction)
         turtle.done()
 
     # Fractal functions
@@ -289,3 +292,20 @@ class Fractal:
         turtle.down()
         turtle.seth(0)
         turtle.circle(radius, steps=360)
+
+    # Spiral of Spirals
+    def draw_spiral(self, length, direction):
+        L = length
+        c = 0
+        while length > 1 or c < 20:
+            if length > 2:
+                self.draw_spiral(length * 0.255, 160 + direction)
+            turtle.up()
+            turtle.seth(direction)
+            turtle.goto(turtle.xcor(), turtle.ycor())
+            if length <= 2:
+                turtle.down()
+            turtle.fd(length)
+            length *= 0.93
+            direction += 20
+            c += 1
