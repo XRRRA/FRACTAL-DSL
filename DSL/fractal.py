@@ -1,3 +1,4 @@
+import math
 import random
 import turtle
 
@@ -31,6 +32,7 @@ def capital(size, depth):
 
 class Fractal:
     def __init__(self):
+        self.length = 2  # default max length (golden tree)
         self.points_nr = 100  # default number of points (fern)
         self.depth = 5  # default depth
         self.size = 700  # default size
@@ -60,6 +62,9 @@ class Fractal:
     def set_background(self, background):
         self.background = background
 
+    def set_length(self, length):
+        self.length = length
+
     def draw(self):
         turtle.setup(width=self.size, height=self.size)
         turtle.bgcolor(self.background)
@@ -85,8 +90,9 @@ class Fractal:
             start_at(0, 0)
             capital(self.size / 2, self.depth)
         elif self.shape == 'fern' or self.shape == 'barnsley fern':
-            start_at(0, -self.size)
             self.draw_barnsley_fern(self.points_nr)
+        elif self.shape == 'tree' or self.shape == 'golden tree':
+            self.draw_golden_fractal_tree(90, self.size/4)
 
         turtle.done()
 
@@ -168,3 +174,30 @@ class Fractal:
                 turtle.up()
                 turtle.hideturtle()
                 turtle.update()
+
+    # Golden Fractal Tree
+    def draw_golden_fractal_tree(self, direction, length):
+        golden_ratio = (1 + 5 ** 0.5) / 2
+        turtle.speed(0)
+        turtle.tracer(0, 0)
+
+        def golden_fractal_tree(x, y, directions, lengths):
+            turtle.up()
+            turtle.goto(x, y)
+            turtle.seth(directions)
+            turtle.pensize(int(math.log(lengths, 2) / 3))
+            if lengths < 10:
+                turtle.color('forest green')
+            else:
+                turtle.color(self.color)
+            turtle.down()
+            turtle.fd(lengths)
+            if lengths < self.length:
+                return
+            cx, cy = turtle.xcor(), turtle.ycor()
+            golden_fractal_tree(cx, cy, directions + 72, (2 - golden_ratio) * lengths)
+            golden_fractal_tree(cx, cy, directions - 72, (2 - golden_ratio) * lengths)
+            golden_fractal_tree(cx, cy, directions, (golden_ratio - 1) * lengths)
+
+        golden_fractal_tree(0, -self.size/2, direction, length)
+        turtle.update()

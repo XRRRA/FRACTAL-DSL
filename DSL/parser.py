@@ -57,6 +57,11 @@ class Parser:
             points_value = self.current_token.value
             self.match("NUMBER")
             self.fractal.set_points_nr(int(points_value))
+        elif command == 'length':
+            self.match("LENGTH")
+            length_value = self.current_token.value
+            self.match("NUMBER")
+            self.fractal.set_length(int(length_value))
         elif command == 'draw':
             self.match("DRAW")
             draw_value = self.current_token.value

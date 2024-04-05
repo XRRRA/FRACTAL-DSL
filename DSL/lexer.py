@@ -57,6 +57,8 @@ class Lexer:
                 token = Token("DEPTH", keyword)
             elif keyword.lower() == 'points':
                 token = Token("POINTS", keyword)
+            elif keyword.lower() == 'length':
+                token = Token("LENGTH", keyword)
             else:
                 self.error()
             # self.pos += len(keyword)
