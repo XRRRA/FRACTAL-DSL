@@ -32,6 +32,7 @@ def capital(size, depth):
 
 class Fractal:
     def __init__(self):
+        self.edges = 6  # default number of edges (snowflake)
         self.direction = 90  # default direction (star)
         self.length = 2  # default max length (golden tree)
         self.points_nr = 100  # default number of points (fern)
@@ -44,6 +45,9 @@ class Fractal:
 
     def set_size(self, size):
         self.size = size
+
+    def set_edges(self, edges):
+        self.edges = edges
 
     def set_points_nr(self, points_nr):
         self.points_nr = points_nr
@@ -99,7 +103,8 @@ class Fractal:
             self.draw_golden_fractal_tree(90, self.size / 4)
         elif self.shape == 'star':
             self.five_pointed_star_fractal(0, -40, self.direction, self.size/2)
-
+        elif self.shape == 'snowflake':
+            self.snowflake(self.size/3, self.depth, self.edges)
         turtle.done()
 
     # Fractal functions
@@ -228,3 +233,33 @@ class Fractal:
         if r < 20:
             return
         self.five_pointed_star_fractal(x, y, 180 + direction, r * math.sin(math.pi / 10) / math.cos(math.pi / 5))
+
+    # Snowflake function
+    def snowflake(self, length, depth, edges):
+        for i in range(edges):
+            self.line_fractal(0, 0, length, i*360/edges, 3, depth)
+
+    def line(self, x, y, length, direction, pensize):
+        turtle.up()
+        turtle.pensize(pensize)
+        turtle.goto(x, y)
+        turtle.down()
+        turtle.seth(direction)
+        turtle.fd(length)
+
+    def line_fractal(self, x, y, length, direction, pensize, n):
+        if n == 0:
+            return
+        self.line(x, y, length, direction, pensize)
+        self.line_fractal(x + math.cos(direction * math.pi / 180) * length * 2 / 5,
+                          y + math.sin(direction * math.pi / 180) * length * 2 / 5,
+                          length * 3 / 5,
+                          direction - 25,
+                          pensize * 3 / 5,
+                          n - 1)
+        self.line_fractal(x + math.cos(direction * math.pi / 180) * length * 2 / 5,
+                          y + math.sin(direction * math.pi / 180) * length * 2 / 5,
+                          length * 3 / 5,
+                          direction + 25,
+                          pensize * 3 / 5,
+                          n - 1)
