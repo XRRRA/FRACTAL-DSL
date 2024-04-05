@@ -105,6 +105,9 @@ class Fractal:
             self.five_pointed_star_fractal(0, -40, self.direction, self.size/2)
         elif self.shape == 'snowflake':
             self.snowflake(self.size/3, self.depth, self.edges)
+        elif self.shape == 'gardi' or self.shape == 'circle':
+            start_at(0, 0)
+            self.gardi_fractal(0, 0, self.size / 3, self.direction, self.depth)
         turtle.done()
 
     # Fractal functions
@@ -263,3 +266,26 @@ class Fractal:
                           direction + 25,
                           pensize * 3 / 5,
                           n - 1)
+
+    # Gardi Fractal
+    def gardi_fractal(self, x, y, radius, orientation, n):
+        if n == 0:
+            return
+        self.two_circles(x, y, radius, orientation)
+        self.gardi_fractal(x, y, (4 - 7 ** 0.5) / 3 * radius, 1 - orientation, n - 1)
+
+    def two_circles(self, x, y, radius, orientation):
+        turtle.pensize(radius / 50)
+        if orientation == 0:
+            self.circle(x - radius / 2, y, radius)
+            self.circle(x + radius / 2, y, radius)
+        else:
+            self.circle(x, y - radius / 2, radius)
+            self.circle(x, y + radius / 2, radius)
+
+    def circle(self, x, y, radius):
+        turtle.up()
+        turtle.goto(x, y - radius)
+        turtle.down()
+        turtle.seth(0)
+        turtle.circle(radius, steps=360)
