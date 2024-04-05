@@ -1,5 +1,7 @@
-size 300
-color '#E74318'
-background '#18bce7'
-shape 'triangle'
+size 800
+color '#B0BF40'
+background '#4F40BF'
+shape 'capital'
+depth 8
+speed 0
 draw 0
