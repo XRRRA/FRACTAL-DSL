@@ -32,6 +32,7 @@ def capital(size, depth):
 
 class Fractal:
     def __init__(self):
+        self.direction = 90  # default direction (star)
         self.length = 2  # default max length (golden tree)
         self.points_nr = 100  # default number of points (fern)
         self.depth = 5  # default depth
@@ -65,6 +66,9 @@ class Fractal:
     def set_length(self, length):
         self.length = length
 
+    def set_direction(self, direction):
+        self.direction = direction
+
     def draw(self):
         turtle.setup(width=self.size, height=self.size)
         turtle.bgcolor(self.background)
@@ -92,7 +96,9 @@ class Fractal:
         elif self.shape == 'fern' or self.shape == 'barnsley fern':
             self.draw_barnsley_fern(self.points_nr)
         elif self.shape == 'tree' or self.shape == 'golden tree':
-            self.draw_golden_fractal_tree(90, self.size/4)
+            self.draw_golden_fractal_tree(90, self.size / 4)
+        elif self.shape == 'star':
+            self.five_pointed_star_fractal(0, -40, self.direction, self.size/2)
 
         turtle.done()
 
@@ -199,5 +205,26 @@ class Fractal:
             golden_fractal_tree(cx, cy, directions - 72, (2 - golden_ratio) * lengths)
             golden_fractal_tree(cx, cy, directions, (golden_ratio - 1) * lengths)
 
-        golden_fractal_tree(0, -self.size/2, direction, length)
+        golden_fractal_tree(0, -self.size / 2, direction, length)
         turtle.update()
+
+    # Five Pointed Star Fractal
+    def five_pointed_star(self, x, y, direction, r):
+        turtle.up()
+        turtle.goto(x, y)
+        turtle.seth(direction)
+        turtle.fd(r)
+        turtle.right(180 - 18)
+        turtle.down()
+        length = r * math.sin(math.pi * 2 / 5) / (1 + math.sin(math.pi / 10))
+        for _ in range(5):
+            turtle.fd(length)
+            turtle.left(72)
+            turtle.fd(length)
+            turtle.right(180 - 36)
+
+    def five_pointed_star_fractal(self, x, y, direction, r):
+        self.five_pointed_star(x, y, direction, r)
+        if r < 20:
+            return
+        self.five_pointed_star_fractal(x, y, 180 + direction, r * math.sin(math.pi / 10) / math.cos(math.pi / 5))

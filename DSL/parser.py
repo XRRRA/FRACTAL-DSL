@@ -62,6 +62,11 @@ class Parser:
             length_value = self.current_token.value
             self.match("NUMBER")
             self.fractal.set_length(int(length_value))
+        elif command == 'direction':
+            self.match("DIRECTION")
+            direction_value = self.current_token.value
+            self.match("NUMBER")
+            self.fractal.set_direction(int(direction_value))
         elif command == 'draw':
             self.match("DRAW")
             draw_value = self.current_token.value
