@@ -30,6 +30,48 @@ def capital(size, depth):
     draw_capital_I(0, 0, size / 2, depth)
 
 
+def circle(x, y, radius):
+    turtle.up()
+    turtle.goto(x, y - radius)
+    turtle.down()
+    turtle.seth(0)
+    turtle.circle(radius, steps=360)
+
+
+def two_circles(x, y, radius, orientation):
+    turtle.pensize(radius / 50)
+    if orientation == 0:
+        circle(x - radius / 2, y, radius)
+        circle(x + radius / 2, y, radius)
+    else:
+        circle(x, y - radius / 2, radius)
+        circle(x, y + radius / 2, radius)
+
+
+def line(x, y, length, direction, pensize):
+    turtle.up()
+    turtle.pensize(pensize)
+    turtle.goto(x, y)
+    turtle.down()
+    turtle.seth(direction)
+    turtle.fd(length)
+
+
+def five_pointed_star(x, y, direction, r):
+    turtle.up()
+    turtle.goto(x, y)
+    turtle.seth(direction)
+    turtle.fd(r)
+    turtle.right(180 - 18)
+    turtle.down()
+    length = r * math.sin(math.pi * 2 / 5) / (1 + math.sin(math.pi / 10))
+    for _ in range(5):
+        turtle.fd(length)
+        turtle.left(72)
+        turtle.fd(length)
+        turtle.right(180 - 36)
+
+
 class Fractal:
     def __init__(self):
         self.edges = 6  # default number of edges (snowflake)
@@ -79,6 +121,7 @@ class Fractal:
         turtle.speed(self.speed)
         turtle.color(self.color)
         turtle.hideturtle()
+        turtle.tracer(0)
 
         def start_at(x, y):
             turtle.penup()
@@ -100,7 +143,7 @@ class Fractal:
         elif self.shape == 'fern' or self.shape == 'barnsley fern':
             self.draw_barnsley_fern(self.points_nr)
         elif self.shape == 'tree' or self.shape == 'golden tree':
-            self.draw_golden_fractal_tree(90, self.size / 4)
+            self.draw_golden_fractal_tree(90, self.size / 4, self.depth)
         elif self.shape == 'star':
             self.five_pointed_star_fractal(0, -40, self.direction, self.size/2)
         elif self.shape == 'snowflake':
@@ -174,6 +217,7 @@ class Fractal:
         p = (0, 0)
         turtle.up()
         turtle.hideturtle()
+
         for i in range(points_nr):
             turtle.goto(p[0] * self.size / 10, p[1] * self.size / 10 - (self.size / 2))
             turtle.dot(2, self.color)
@@ -193,17 +237,17 @@ class Fractal:
                 turtle.update()
 
     # Golden Fractal Tree
-    def draw_golden_fractal_tree(self, direction, length):
+    def draw_golden_fractal_tree(self, direction, length, depths):
         golden_ratio = (1 + 5 ** 0.5) / 2
         turtle.speed(0)
         turtle.tracer(0, 0)
 
-        def golden_fractal_tree(x, y, directions, lengths):
+        def golden_fractal_tree(x, y, directions, lengths, depth):
             turtle.up()
             turtle.goto(x, y)
             turtle.seth(directions)
             turtle.pensize(int(math.log(lengths, 2) / 3))
-            if lengths < 10:
+            if lengths < depth:
                 turtle.color('forest green')
             else:
                 turtle.color(self.color)
@@ -212,30 +256,16 @@ class Fractal:
             if lengths < self.length:
                 return
             cx, cy = turtle.xcor(), turtle.ycor()
-            golden_fractal_tree(cx, cy, directions + 72, (2 - golden_ratio) * lengths)
-            golden_fractal_tree(cx, cy, directions - 72, (2 - golden_ratio) * lengths)
-            golden_fractal_tree(cx, cy, directions, (golden_ratio - 1) * lengths)
+            golden_fractal_tree(cx, cy, directions + 72, (2 - golden_ratio) * lengths, depth)
+            golden_fractal_tree(cx, cy, directions - 72, (2 - golden_ratio) * lengths, depth)
+            golden_fractal_tree(cx, cy, directions, (golden_ratio - 1) * lengths, depth)
 
-        golden_fractal_tree(0, -self.size / 2, direction, length)
+        golden_fractal_tree(0, -self.size / 2, direction, length, depths)
         turtle.update()
 
     # Five Pointed Star Fractal
-    def five_pointed_star(self, x, y, direction, r):
-        turtle.up()
-        turtle.goto(x, y)
-        turtle.seth(direction)
-        turtle.fd(r)
-        turtle.right(180 - 18)
-        turtle.down()
-        length = r * math.sin(math.pi * 2 / 5) / (1 + math.sin(math.pi / 10))
-        for _ in range(5):
-            turtle.fd(length)
-            turtle.left(72)
-            turtle.fd(length)
-            turtle.right(180 - 36)
-
     def five_pointed_star_fractal(self, x, y, direction, r):
-        self.five_pointed_star(x, y, direction, r)
+        five_pointed_star(x, y, direction, r)
         if r < 20:
             return
         self.five_pointed_star_fractal(x, y, 180 + direction, r * math.sin(math.pi / 10) / math.cos(math.pi / 5))
@@ -245,18 +275,10 @@ class Fractal:
         for i in range(edges):
             self.line_fractal(0, 0, length, i*360/edges, 3, depth)
 
-    def line(self, x, y, length, direction, pensize):
-        turtle.up()
-        turtle.pensize(pensize)
-        turtle.goto(x, y)
-        turtle.down()
-        turtle.seth(direction)
-        turtle.fd(length)
-
     def line_fractal(self, x, y, length, direction, pensize, n):
         if n == 0:
             return
-        self.line(x, y, length, direction, pensize)
+        line(x, y, length, direction, pensize)
         self.line_fractal(x + math.cos(direction * math.pi / 180) * length * 2 / 5,
                           y + math.sin(direction * math.pi / 180) * length * 2 / 5,
                           length * 3 / 5,
@@ -274,28 +296,11 @@ class Fractal:
     def gardi_fractal(self, x, y, radius, orientation, n):
         if n == 0:
             return
-        self.two_circles(x, y, radius, orientation)
+        two_circles(x, y, radius, orientation)
         self.gardi_fractal(x, y, (4 - 7 ** 0.5) / 3 * radius, 1 - orientation, n - 1)
-
-    def two_circles(self, x, y, radius, orientation):
-        turtle.pensize(radius / 50)
-        if orientation == 0:
-            self.circle(x - radius / 2, y, radius)
-            self.circle(x + radius / 2, y, radius)
-        else:
-            self.circle(x, y - radius / 2, radius)
-            self.circle(x, y + radius / 2, radius)
-
-    def circle(self, x, y, radius):
-        turtle.up()
-        turtle.goto(x, y - radius)
-        turtle.down()
-        turtle.seth(0)
-        turtle.circle(radius, steps=360)
 
     # Spiral of Spirals
     def draw_spiral(self, length, direction):
-        L = length
         c = 0
         while length > 1 or c < 20:
             if length > 2:
