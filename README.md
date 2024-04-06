@@ -118,6 +118,7 @@ draw 0
 <p align="center">
   <img width="500" height="500" src="Examples/triangle 2.png">
  </p>
+ 
 ### 2. Koch Snowflake:
 #### Customization
 The Koch snowflake is a fractal curve that starts with an equilateral triangle and repeatedly replaces each line segment with a pattern resembling a snowflake. It demonstrates infinite perimeter within a finite area.
