@@ -42,6 +42,11 @@ class Parser:
             shape_value = self.current_token.value
             self.match("STRING")
             self.fractal.set_shape(shape_value.strip("'").strip('"'))
+        elif command == 'fill':
+            self.match("FILL")
+            fill_value = self.current_token.value
+            self.match("STRING")
+            self.fractal.set_fill(fill_value.strip("'").strip('"'))
         elif command == 'speed':
             self.match("SPEED")
             speed_value = self.current_token.value

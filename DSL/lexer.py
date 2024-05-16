@@ -47,6 +47,8 @@ class Lexer:
                 token = Token("SPEED", keyword)
             elif keyword.lower() == 'shape':
                 token = Token("SHAPE", keyword)
+            elif keyword.lower() == 'fill':
+                token = Token("FILL", keyword)
             elif keyword.lower() == 'scale':
                 token = Token("SCALE", keyword)
             elif keyword.lower() == 'rotate':
