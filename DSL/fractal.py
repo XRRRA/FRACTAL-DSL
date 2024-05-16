@@ -72,7 +72,7 @@ def five_pointed_star(x, y, direction, r):
         turtle.right(180 - 36)
 
 
-def star(x, y, length, penc, fillc):
+def star(x, y, length, penc, fillcolor):
     turtle.up()
     turtle.goto(x, y)
     turtle.seth(90)
@@ -81,7 +81,7 @@ def star(x, y, length, penc, fillc):
     L = length * math.sin(36 * math.pi / 180) / math.sin(54 * math.pi / 180)
     turtle.seth(180 + 72)
     turtle.down()
-    turtle.fillcolor(fillc)
+    turtle.fillcolor(fillcolor)
     turtle.pencolor(penc)
     turtle.begin_fill()
     for _ in range(5):
@@ -91,16 +91,35 @@ def star(x, y, length, penc, fillc):
         turtle.left(144)
     turtle.end_fill()
 
-def star_fractal(x, y, length, penc, fillc, n):
+
+def star_fractal(x, y, length, penc, fillcolor, n):
     if n == 0:
-        star(x, y, length, penc, fillc)
+        star(x, y, length, penc, fillcolor)
         return
     length2 = length / (1 + (math.sin(18 * math.pi / 180) + 1) / math.sin(54 * math.pi / 180))
-    L = length - length2 - length2 * math.sin(18 * math.pi / 180) / math.sin(54 * math.pi / 180)
+    length - length2 - length2 * math.sin(18 * math.pi / 180) / math.sin(54 * math.pi / 180)
     for i in range(5):
         star_fractal(x + math.cos((90 + i * 72) * math.pi / 180) * (length - length2),
                      y + math.sin((90 + i * 72) * math.pi / 180) * (length - length2),
-                     length2, penc, fillc, n - 1)
+                     length2, penc, fillcolor, n - 1)
+
+
+def draw_cross(x, y, length, fillcolor, penc):
+    turtle.up()
+    turtle.goto(x - length / 2, y - length / 6)
+    turtle.down()
+    turtle.seth(0)
+    turtle.fillcolor(fillcolor)
+    turtle.pencolor(penc)
+    turtle.begin_fill()
+    for _ in range(4):
+        turtle.fd(length / 3)
+        turtle.right(90)
+        turtle.fd(length / 3)
+        turtle.left(90)
+        turtle.fd(length / 3)
+        turtle.left(90)
+    turtle.end_fill()
 
 
 class Fractal:
@@ -115,7 +134,8 @@ class Fractal:
         self.speed = 0  # default speed
         self.shape = 'triangle'  # default shape
         self.background = 'white'  # default background color
-        self.fill = "false"     # default fill value
+        self.fill = "false"  # default fill value
+        self.instant = "false"  # not to draw in an instant by default
 
     def set_size(self, size):
         self.size = size
@@ -138,6 +158,9 @@ class Fractal:
     def set_shape(self, shape):
         self.shape = shape
 
+    def set_instant(self, instant):
+        self.instant = instant
+
     def set_fill(self, fill):
         self.fill = fill
 
@@ -156,7 +179,8 @@ class Fractal:
         turtle.speed(self.speed)
         turtle.color(self.color)
         turtle.hideturtle()
-        turtle.tracer(0)
+        if self.instant == "true":
+            turtle.tracer(0)
 
         def start_at(x, y):
             turtle.penup()
@@ -180,9 +204,9 @@ class Fractal:
         elif self.shape == 'tree' or self.shape == 'golden tree':
             self.draw_golden_fractal_tree(90, self.size / 4, self.depth)
         elif self.shape == 'star':
-            self.five_pointed_star_fractal(0, -40, self.direction, self.size/2)
+            self.five_pointed_star_fractal(0, -40, self.direction, self.size / 2)
         elif self.shape == 'snowflake':
-            self.snowflake(self.size/3, self.depth, self.edges)
+            self.snowflake(self.size / 3, self.depth, self.edges)
         elif self.shape == 'gardi' or self.shape == 'circle':
             start_at(0, 0)
             self.gardi_fractal(0, 0, self.size / 3, self.direction, self.depth)
@@ -194,6 +218,12 @@ class Fractal:
                 star_fractal(0, 0, self.size / 2, self.color, self.color, self.depth)
             else:
                 star_fractal(0, 0, self.size / 2, self.color, self.background, self.depth)
+        elif self.shape == 'vicsek' or self.shape == 'cross':
+            start_at(0, 0)
+            if self.fill == "true":
+                self.vicsek_fractal(0, 0, self.size, self.depth, self.color, self.color)
+            else:
+                self.vicsek_fractal(0, 0, self.size, self.depth, self.background, self.color)
         turtle.done()
 
     # Fractal functions
@@ -313,7 +343,7 @@ class Fractal:
     # Snowflake function
     def snowflake(self, length, depth, edges):
         for i in range(edges):
-            self.line_fractal(0, 0, length, i*360/edges, 3, depth)
+            self.line_fractal(0, 0, length, i * 360 / edges, 3, depth)
 
     def line_fractal(self, x, y, length, direction, pensize, n):
         if n == 0:
@@ -354,3 +384,15 @@ class Fractal:
             length *= 0.93
             direction += 20
             c += 1
+
+    # Cross fractal
+    def vicsek_fractal(self, x, y, length, n, fillcolor, penc):
+        if n == 0:
+            draw_cross(x, y, length, fillcolor, penc)
+            return
+
+        self.vicsek_fractal(x, y, length / 3, n - 1, fillcolor, penc)
+        self.vicsek_fractal(x + length / 3, y, length / 3, n - 1, fillcolor, penc)
+        self.vicsek_fractal(x - length / 3, y, length / 3, n - 1, fillcolor, penc)
+        self.vicsek_fractal(x, y + length / 3, length / 3, n - 1, fillcolor, penc)
+        self.vicsek_fractal(x, y - length / 3, length / 3, n - 1, fillcolor, penc)

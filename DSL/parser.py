@@ -47,6 +47,11 @@ class Parser:
             fill_value = self.current_token.value
             self.match("STRING")
             self.fractal.set_fill(fill_value.strip("'").strip('"'))
+        elif command == 'instant':
+            self.match("INSTANT")
+            instant_value = self.current_token.value
+            self.match("STRING")
+            self.fractal.set_instant(instant_value.strip("'").strip('"'))
         elif command == 'speed':
             self.match("SPEED")
             speed_value = self.current_token.value

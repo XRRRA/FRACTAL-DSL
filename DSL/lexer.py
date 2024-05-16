@@ -49,6 +49,8 @@ class Lexer:
                 token = Token("SHAPE", keyword)
             elif keyword.lower() == 'fill':
                 token = Token("FILL", keyword)
+            elif keyword.lower() == "instant":
+                token = Token("INSTANT", keyword)
             elif keyword.lower() == 'scale':
                 token = Token("SCALE", keyword)
             elif keyword.lower() == 'rotate':
