@@ -265,9 +265,12 @@ class Fractal:
                         -self.size / scale, -self.size / scale, float(self.ratio))
         elif self.shape == 'stacked squares':  # Add this block for the new shape
             if self.fill == "true":
-                draw_stacked_squares(0, 0, self.size/2, self.depth, self.color, self.color)
+                draw_stacked_squares(0, 0, self.size / 2, self.depth, self.color, self.color)
             else:
-                draw_stacked_squares(0, 0, self.size/2, self.depth, self.background, self.color)
+                draw_stacked_squares(0, 0, self.size / 2, self.depth, self.background, self.color)
+        elif self.shape == 'hilbert':
+            start_at(-self.size / 2, self.size / 2)
+            self.draw_hilbert_curve(self.depth, self.size*0.95)
         turtle.done()
 
     # Fractal functions
@@ -458,3 +461,33 @@ class Fractal:
         self.Cesaro(px1, py1, px2, py2, ratio)
         self.Cesaro(px2, py2, px3, py3, ratio)
         self.Cesaro(px3, py3, x2, y2, ratio)
+
+    # Hilbert Curve
+    def hilbert(self, level, angle, step):
+        if level == 0:
+            return
+
+        turtle.right(angle)
+        self.hilbert(level - 1, -angle, step)
+
+        turtle.forward(step)
+        turtle.left(angle)
+        self.hilbert(level - 1, angle, step)
+
+        turtle.forward(step)
+        self.hilbert(level - 1, angle, step)
+
+        turtle.left(angle)
+        turtle.forward(step)
+        self.hilbert(level - 1, -angle, step)
+        turtle.right(angle)
+
+        # Main function to draw Hilbert Curve
+
+    def draw_hilbert_curve(self, level, size):
+        turtle.penup()
+        turtle.goto(-size / 2.0, size / 2.0)
+        turtle.pendown()
+
+        self.hilbert(level, 90, size / (2 ** level - 1))
+        turtle.done()
