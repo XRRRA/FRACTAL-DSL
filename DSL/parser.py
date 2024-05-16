@@ -52,6 +52,11 @@ class Parser:
             instant_value = self.current_token.value
             self.match("STRING")
             self.fractal.set_instant(instant_value.strip("'").strip('"'))
+        elif command == 'ratio':
+            self.match("RATIO")
+            ratio_value = self.current_token.value
+            self.match("STRING")
+            self.fractal.set_ratio(ratio_value.strip("'").strip('"'))
         elif command == 'speed':
             self.match("SPEED")
             speed_value = self.current_token.value

@@ -136,6 +136,7 @@ class Fractal:
         self.background = 'white'  # default background color
         self.fill = "false"  # default fill value
         self.instant = "false"  # not to draw in an instant by default
+        self.ratio = '0.4'  # default ratio for Cesaro fractal
 
     def set_size(self, size):
         self.size = size
@@ -172,6 +173,9 @@ class Fractal:
 
     def set_direction(self, direction):
         self.direction = direction
+
+    def set_ratio(self, ratio):
+        self.ratio = ratio
 
     def draw(self):
         turtle.setup(width=self.size, height=self.size)
@@ -224,6 +228,14 @@ class Fractal:
                 self.vicsek_fractal(0, 0, self.size, self.depth, self.color, self.color)
             else:
                 self.vicsek_fractal(0, 0, self.size, self.depth, self.background, self.color)
+        elif self.shape == 'cesaro' or self.shape == 'square':
+            scale = 4
+            start_at(-self.size / 2, -self.size / 2)
+            self.Cesaro(-self.size / scale, -self.size / scale, -self.size / scale, self.size / scale, float(self.ratio))
+            self.Cesaro(-self.size / scale, self.size / scale, self.size / scale, self.size / scale, float(self.ratio))
+            self.Cesaro(self.size / scale, self.size / scale, self.size / scale, -self.size / scale, float(self.ratio))
+            self.Cesaro(self.size / scale, -self.size / scale, -self.size / scale, -self.size / scale, float(self.ratio))
+
         turtle.done()
 
     # Fractal functions
@@ -396,3 +408,21 @@ class Fractal:
         self.vicsek_fractal(x - length / 3, y, length / 3, n - 1, fillcolor, penc)
         self.vicsek_fractal(x, y + length / 3, length / 3, n - 1, fillcolor, penc)
         self.vicsek_fractal(x, y - length / 3, length / 3, n - 1, fillcolor, penc)
+
+    # Cesaro fractal
+    def Cesaro(self, x1, y1, x2, y2, ratio):
+        dist = ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
+        if dist < 5:  # Adjust the threshold for stopping recursion
+            turtle.goto(x2, y2)
+            return
+        direction = math.atan2(y2 - y1, x2 - x1)
+        px1, py1 = x1 + dist * ratio * math.cos(direction), y1 + dist * ratio * math.sin(direction)
+        px3, py3 = x1 + dist * (1 - ratio) * math.cos(direction), y1 + dist * (1 - ratio) * math.sin(direction)
+        ptx, pty = (px1 + px3) / 2, (py1 + py3) / 2
+        d = ((dist * ratio) ** 2 - (dist * (1 - 2 * ratio) / 2) ** 2) ** 0.5
+        px2, py2 = ptx + d * math.cos(direction + math.radians(90)), pty + d * math.sin(direction + math.radians(90))
+
+        self.Cesaro(x1, y1, px1, py1, ratio)
+        self.Cesaro(px1, py1, px2, py2, ratio)
+        self.Cesaro(px2, py2, px3, py3, ratio)
+        self.Cesaro(px3, py3, x2, y2, ratio)

@@ -67,6 +67,8 @@ class Lexer:
                 token = Token("DIRECTION", keyword)
             elif keyword.lower() == 'edges':
                 token = Token("EDGES", keyword)
+            elif keyword.lower() == 'ratio':
+                token = Token("RATIO", keyword)
             else:
                 self.error()
             # self.pos += len(keyword)
