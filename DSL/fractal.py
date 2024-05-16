@@ -123,27 +123,27 @@ def draw_cross(x, y, length, fillcolor, penc):
 
 
 def draw_stacked_squares(x, y, length, n, fillcolor, penc):
-    def stacksquares(x, y, length, n, fillcolor, penc):
-        if n == 0:
+    def stackedSquares(x1, y1, lengthIn, inn, fcolor, pencolor):
+        if inn == 0:
             return
-        stacksquares(x - length / 2, y - length / 2, length / 2, n - 1, fillcolor, penc)
-        stacksquares(x + length / 2, y + length / 2, length / 2, n - 1, fillcolor, penc)
-        stacksquares(x - length / 2, y + length / 2, length / 2, n - 1, fillcolor, penc)
-        stacksquares(x + length / 2, y - length / 2, length / 2, n - 1, fillcolor, penc)
+        stackedSquares(x1 - lengthIn / 2, y1 - lengthIn / 2, lengthIn / 2, inn - 1, fcolor, pencolor)
+        stackedSquares(x1 + lengthIn / 2, y1 + lengthIn / 2, lengthIn / 2, inn - 1, fcolor, pencolor)
+        stackedSquares(x1 - lengthIn / 2, y1 + lengthIn / 2, lengthIn / 2, inn - 1, fcolor, pencolor)
+        stackedSquares(x1 + lengthIn / 2, y1 - lengthIn / 2, lengthIn / 2, inn - 1, fcolor, pencolor)
 
         turtle.up()
-        turtle.goto(x - length / 2, y - length / 2)
+        turtle.goto(x1 - lengthIn / 2, y1 - lengthIn / 2)
         turtle.down()
         turtle.seth(0)
-        turtle.fillcolor(fillcolor)
-        turtle.pencolor(penc)
+        turtle.fillcolor(fcolor)
+        turtle.pencolor(pencolor)
         turtle.begin_fill()
         for _ in range(4):
-            turtle.fd(length)
+            turtle.fd(lengthIn)
             turtle.left(90)
         turtle.end_fill()
 
-    stacksquares(x, y, length, n, fillcolor, penc)
+    stackedSquares(x, y, length, n, fillcolor, penc)
 
 
 class Fractal:
@@ -255,10 +255,14 @@ class Fractal:
         elif self.shape == 'cesaro' or self.shape == 'square':
             scale = 4
             start_at(-self.size / 2, -self.size / 2)
-            self.Cesaro(-self.size / scale, -self.size / scale, -self.size / scale, self.size / scale, float(self.ratio))
-            self.Cesaro(-self.size / scale, self.size / scale, self.size / scale, self.size / scale, float(self.ratio))
-            self.Cesaro(self.size / scale, self.size / scale, self.size / scale, -self.size / scale, float(self.ratio))
-            self.Cesaro(self.size / scale, -self.size / scale, -self.size / scale, -self.size / scale, float(self.ratio))
+            self.Cesaro(-self.size / scale, -self.size / scale,
+                        -self.size / scale, self.size / scale, float(self.ratio))
+            self.Cesaro(-self.size / scale, self.size / scale,
+                        self.size / scale, self.size / scale, float(self.ratio))
+            self.Cesaro(self.size / scale, self.size / scale,
+                        self.size / scale, -self.size / scale, float(self.ratio))
+            self.Cesaro(self.size / scale, -self.size / scale,
+                        -self.size / scale, -self.size / scale, float(self.ratio))
         elif self.shape == 'stacked squares':  # Add this block for the new shape
             if self.fill == "true":
                 draw_stacked_squares(0, 0, self.size/2, self.depth, self.color, self.color)
