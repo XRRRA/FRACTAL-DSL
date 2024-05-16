@@ -122,6 +122,30 @@ def draw_cross(x, y, length, fillcolor, penc):
     turtle.end_fill()
 
 
+def draw_stacked_squares(x, y, length, n, fillcolor, penc):
+    def stacksquares(x, y, length, n, fillcolor, penc):
+        if n == 0:
+            return
+        stacksquares(x - length / 2, y - length / 2, length / 2, n - 1, fillcolor, penc)
+        stacksquares(x + length / 2, y + length / 2, length / 2, n - 1, fillcolor, penc)
+        stacksquares(x - length / 2, y + length / 2, length / 2, n - 1, fillcolor, penc)
+        stacksquares(x + length / 2, y - length / 2, length / 2, n - 1, fillcolor, penc)
+
+        turtle.up()
+        turtle.goto(x - length / 2, y - length / 2)
+        turtle.down()
+        turtle.seth(0)
+        turtle.fillcolor(fillcolor)
+        turtle.pencolor(penc)
+        turtle.begin_fill()
+        for _ in range(4):
+            turtle.fd(length)
+            turtle.left(90)
+        turtle.end_fill()
+
+    stacksquares(x, y, length, n, fillcolor, penc)
+
+
 class Fractal:
     def __init__(self):
         self.edges = 6  # default number of edges (snowflake)
@@ -235,7 +259,11 @@ class Fractal:
             self.Cesaro(-self.size / scale, self.size / scale, self.size / scale, self.size / scale, float(self.ratio))
             self.Cesaro(self.size / scale, self.size / scale, self.size / scale, -self.size / scale, float(self.ratio))
             self.Cesaro(self.size / scale, -self.size / scale, -self.size / scale, -self.size / scale, float(self.ratio))
-
+        elif self.shape == 'stacked squares':  # Add this block for the new shape
+            if self.fill == "true":
+                draw_stacked_squares(0, 0, self.size/2, self.depth, self.color, self.color)
+            else:
+                draw_stacked_squares(0, 0, self.size/2, self.depth, self.background, self.color)
         turtle.done()
 
     # Fractal functions
