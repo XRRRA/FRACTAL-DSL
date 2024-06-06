@@ -491,7 +491,7 @@ draw 0
   <img width="500" height="500" src="Examples/star fractal 2.png">
  </p>
  
-### 11. Vicsek Fractal
+### 12. Vicsek Fractal
 #### Customization
 In mathematics the Vicsek fractal, also known as Vicsek snowflake or box fractal,is a fractal originating from a structure similar to that of the Sierpiński carpet, developed by Tamás Vicsek. It has applications include as tiny antennas, particularly in cellular phones.
 
