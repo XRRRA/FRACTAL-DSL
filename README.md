@@ -449,6 +449,92 @@ draw 0
 <p align="center">
   <img width="500" height="500" src="Examples/spiral.png">
  </p>
+
+### 11. Star Fractal
+#### Customization
+Star Fractal is composed of repeated copies of a pentagram or other polygon.
+
+- **Length** : The side length of the star.
+- **Penc** : The color of the star’s outline.
+- **Fillcolor** : The fill color of the star.
+- **n** :Specifies the depth (complexity). (INT input)
+#### Example of code
+##### Example 1
+```
+size 800
+color 'yellow'
+background 'dark blue'
+shape 'star fractal'
+depth 2
+fill 'true'
+speed 0
+draw 0
+```
+##### Output 1
+<p align="center">
+  <img width="500" height="500" src="Examples/star fractal 1.png">
+ </p>
+ 
+##### Example 2
+```
+size 800
+color 'orange'
+background 'light blue'
+shape 'star fractal'
+depth 5
+fill 'false'
+speed 0
+draw 0
+```
+##### Output 2
+<p align="center">
+  <img width="500" height="500" src="Examples/star fractal 2.png">
+ </p>
+ 
+### 12. Vicsek Fractal
+#### Customization
+In mathematics the Vicsek fractal, also known as Vicsek snowflake or box fractal,is a fractal originating from a structure similar to that of the Sierpiński carpet, developed by Tamás Vicsek. It has applications include as tiny antennas, particularly in cellular phones.
+
+- **Length** : Length of current fractal par.
+- **Penc** : The color of the outline.
+- **Fillcolor** : The fill color of the fractal parts
+- **n** :Specifies the depth (complexity). (INT input)
+#### Example of code
+##### Example 1
+```
+\begin{verbatim}
+size 800
+color 'brown'
+background 'gray'
+shape 'vicsek'
+depth 2
+speed 0
+fill 'true'
+instant 'false'
+draw 0
+```
+##### Output 1
+<p align="center">
+  <img width="500" height="500" src="Examples/cross 1.png">
+ </p>
+ 
+##### Example 2
+```
+size 800
+color 'yellow'
+background 'black'
+shape 'vicsek'
+depth 6
+speed 0
+fill 'false'
+instant 'true'
+draw 0
+```
+##### Output 2
+<p align="center">
+  <img width="500" height="500" src="Examples/cross 2.png">
+ </p>
+ 
  
 ## Conclusion
 
