@@ -618,7 +618,6 @@ draw 0
   <img width="500" height="500" src="Examples/hilbert 2.png">
  </p>
 
- ______________________________________
 ## Conclusion
 
 The Fractal DSL represents a paradigm shift in fractal generation, offering a powerful yet accessible tool for enthusiasts, artists, educators, and researchers. This documentation aims to empower users to engage meaningfully with fractal geometry and unleash their creativity through digital art and exploration. Happy fractal designing!
