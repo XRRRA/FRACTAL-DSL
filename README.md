@@ -534,8 +534,91 @@ draw 0
 <p align="center">
   <img width="500" height="500" src="Examples/cross 2.png">
  </p>
+
+ ### 13. Cesaro Fractal
+#### Customization
+Cesaro Fractal is composed of repeated iterations of a shape with its edges modified by a specified angle, creating a jagged and intricate pattern.
+
+- - **Length** : Length of current fractal par.
+- **Penc** : The color of the outline.
+- **Fillcolor** : The fill color of the fractal parts
+- **n** :Specifies the depth (complexity). (INT input)
+#### Example of code
+##### Example 1
+```
+size 800
+color 'light green'
+background 'black'
+shape 'cesaro'
+ratio '0.48'
+speed 0
+instant 'true'
+draw 0
+```
+##### Output 1
+<p align="center">
+  <img width="500" height="500" src="Examples/cesaro 1.png">
+ </p>
  
+##### Example 2
+```
+size 800
+color 'white'
+background 'blue'
+shape 'cesaro'
+ratio '0.33'
+speed 0
+instant 'true'
+draw 0
+```
+##### Output 2
+<p align="center">
+  <img width="500" height="500" src="Examples/cesaro 2.png">
+ </p>
  
+### 14. Hilbert Curve
+#### Customization
+Hilbert Curve is composed of a continuous fractal space-filling curve, created through recursive iterations that divide a plane into smaller segments, resulting in a complex, meandering path that covers every point in a square grid.
+
+- **Level** : Specifies the depth (complexity) of the Hilbert curve.
+- **Angle** : The angle by which the turtle turns during each step of the recursion.
+- **Step** : Length of each segment in the fractal.
+- **Size** : The total size of the Hilbert curve.
+#### Example of code
+##### Example 1
+```
+\begin{verbatim}
+size 800
+color 'blue'
+background 'pink'
+shape 'hilbert'
+depth 2
+speed 0
+instant 'false'
+draw 0
+```
+##### Output 1
+<p align="center">
+  <img width="500" height="500" src="Examples/hilbert 1.png">
+ </p>
+ 
+##### Example 2
+```
+size 800
+color 'orange'
+background 'dark green'
+shape 'hilbert'
+depth 8
+speed 0
+instant 'true'
+draw 0
+```
+##### Output 2
+<p align="center">
+  <img width="500" height="500" src="Examples/hilbert 2.png">
+ </p>
+
+ ______________________________________
 ## Conclusion
 
 The Fractal DSL represents a paradigm shift in fractal generation, offering a powerful yet accessible tool for enthusiasts, artists, educators, and researchers. This documentation aims to empower users to engage meaningfully with fractal geometry and unleash their creativity through digital art and exploration. Happy fractal designing!
