@@ -1,7 +1,0 @@
-size 800
-color '#B0BF40'
-background '#4F40BF'
-shape 'capital'
-depth 8
-speed 0
-draw 0

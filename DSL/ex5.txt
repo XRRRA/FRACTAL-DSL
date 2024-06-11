@@ -1,0 +1,8 @@
+size 800
+color '#DABD25'
+background '#2542DA'
+shape 'koch snowflake'
+depth 5
+instant 'true'
+speed 0
+draw 0

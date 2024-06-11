@@ -1,0 +1,8 @@
+size 800
+color '#4865B7'
+background '#B79A48'
+shape 'capital'
+depth 6
+instant 'false'
+speed 0
+draw 0

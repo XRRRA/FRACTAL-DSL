@@ -1,0 +1,9 @@
+size 800
+color '#00A6E7'
+background '#110079'
+shape 'snowflake'
+edges 32
+depth 6
+instant 'true'
+speed 0
+draw 0
